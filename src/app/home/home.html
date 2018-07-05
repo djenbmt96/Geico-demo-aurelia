@@ -1,0 +1,74 @@
+<template>
+  <div class="row justify-content-sm-center">
+    <div>
+      <h1 class="title-custom">Geico Report</h1>
+      <hr>
+    </div>
+  </div>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Item code</th>
+        <th scope="col">Name</th>
+        <th scope="col">Desciption</th>
+        <th scope="col">Status</th>
+        <th scope="col">Use date</th>
+        <th scope="col">Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr repeat.for="item of items">
+        <th scope="row">${item.id}</th>
+        <td>${item.name}</td>
+        <td>${item.description}</td>
+        <td if.bind="item.status === 0">
+          <span class="badge badge-secondary">none</span>
+        </td>
+        <td if.bind="item.status === 1">
+          <span class="badge badge-success">email sent</span>
+        </td>
+        <td>${item.useDate}</td>
+        <td>
+          <input type="checkbox" model.bind="item" checked.bind="selectedItems">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row justify-content-sm-center">
+    <div class="col-sm-4">
+        <button disabled.bind="selectedItems.length===0" type="button" class="btn ${selectedItems.length===0 ? 'btn-secondary' : 'btn-primary'} btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Send email</button>
+    </div>
+  </div>
+  <form submit.delegate="submit()">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Send email</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div if.bind="inform==1" class="alert alert-success" role="alert">
+              <h4 class="alert-heading">Well done!</h4>
+              <p>Your email was sent successfully!</p>
+            </div>
+            <div if.bind="inform==-1" class="alert alert-danger" role="alert">
+              <h4 class="alert-heading">Opps!</h4>
+              <p>There was an error! Your email is not sent.</p>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Send to email address</label>
+              <input value.bind="email & validate" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</template>
