@@ -6,6 +6,7 @@ let client = new HttpClient();
 export class HomeService{
   apiDomain=environment.apiDomain;
   isRequesting=false;
+
   SendEmail(param){
     this.isRequesting=true;
     return client.post(this.apiDomain, param).then(res=>{
@@ -17,6 +18,22 @@ export class HomeService{
   GetList(){
     this.isRequesting=true;
     return client.get(this.apiDomain).then(res=>{
+      this.isRequesting=false;
+      return res;
+    });
+  }
+
+  Edit(param){
+    this.isRequesting=true;
+    return client.post(this.apiDomain+'edit',param).then(res=>{
+      this.isRequesting=false;
+      return res;
+    });
+  }
+
+  Delete(param){
+    this.isRequesting=true;
+    return client.post(this.apiDomain+'delete',param).then(res=>{
       this.isRequesting=false;
       return res;
     });

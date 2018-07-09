@@ -16,6 +16,11 @@ export class App {
         route: '',
         moduleId: PLATFORM.moduleName('./app/home/home'),
         title: 'Home'
+      },
+      {
+        route: 'add',
+        moduleId: PLATFORM.moduleName('./app/devices/add-device'),
+        name: 'add'
       }
     ]);
 

@@ -1,6 +1,7 @@
 import { WebAPI } from "../../api/web-api";
 import { inject,autoinject } from "aurelia-framework";
 import { HomeService } from "./home.service";
+import { Device } from "../../model/device";
 import {
   ValidationControllerFactory,
   ValidationController,
@@ -8,21 +9,15 @@ import {
 } from 'aurelia-validation';
 import {BootstrapFormRenderer} from '../bootstrap-form-renderer';
 
-
-// @inject(HomeService,WebAPI,ValidationControllerFactory)
 @autoinject
 export class Home {
   
-  items;
-  selectedItems: any[] = [];
+  items:Device[]=[];
+  selectedItems: Device[] = [];
   email='';
   controller = null;
   inform=0;
-
-  currentPage=1;
-  pageSize=5;
-  totalItems=50;
-  pageSizes=[10, 25, 50, 100];
+  selectedItem:Device;
 
   constructor(
     private homeService:HomeService,
@@ -33,7 +28,6 @@ export class Home {
     this.controller.addRenderer(new BootstrapFormRenderer());
 
   }
-
 
   created(){
     this.homeService.GetList().then(res=>{
@@ -60,7 +54,34 @@ export class Home {
       }
     })
   }
+
+  changeEditItem(param){
+    this.inform=0;
+    this.selectedItem=param;
+  }
+
+  edit(){
+    this.homeService.Edit(this.selectedItem).then(res=>{
+      if(res.response){
+        this.inform=2;
+      }
+      this.items=JSON.parse(res.response);
+    })
+  }
+  
+  delete(id){
+    let result = confirm('Do you want to delete?');
+    if(result){
+      var param={};
+      param['id']=id;
+      this.homeService.Delete(param).then(res=>{
+        if(res.response){
+          this.items=JSON.parse(res.response);
+        }
+      })
+    }
+  }
 }
 ValidationRules
   .ensure((a:any) => a.email).required().email()
-  .on(Home);
+  .on(Home)
