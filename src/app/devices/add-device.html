@@ -20,6 +20,12 @@
           <label for="useDate">Use date</label>
           <input value.bind="useDate & validate" type="number" class="form-control" id="useDate" placeholder="Enter use date">
         </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select class="form-control" value.bind="categoryid">
+            <option repeat.for="item of categories" model.bind="item.id">${item.name}</option>
+          </select>
+        </div>
         <button type="submit" class="btn btn-primary float-right">Add</button>
       </form>
     </div>

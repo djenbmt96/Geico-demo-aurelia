@@ -19,6 +19,7 @@
         <th scope="col">Item code</th>
         <th scope="col">Name</th>
         <th scope="col">Desciption</th>
+        <th scope="col">Category</th>
         <th scope="col">Status</th>
         <th scope="col">Use date</th>
         <th scope="col">Email</th>
@@ -30,6 +31,9 @@
         <th scope="row">${item.id}</th>
         <td>${item.name}</td>
         <td>${item.description}</td>
+        <td show.bind="category.id===item.categoryid" repeat.for="category of categories">
+          ${category.name}
+        </td>
         <td if.bind="item.status === 0">
           <span class="badge badge-secondary">none</span>
         </td>
@@ -114,6 +118,12 @@
             <div class="form-group">
               <label for="editUseDate">Use date</label>
               <input value.bind="selectedItem.useDate" type="number" class="form-control" id="editUseDate" placeholder="Enter use date">
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select class="form-control" value.bind="selectedItem.categoryid">
+                <option repeat.for="item of categories" model.bind="item.id">${item.name}</option>
+              </select>
             </div>
           </div>
           <div class="modal-footer">

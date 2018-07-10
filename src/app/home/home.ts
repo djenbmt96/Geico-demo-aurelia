@@ -1,6 +1,7 @@
 import { inject,autoinject } from "aurelia-framework";
 import { HomeService } from "./home.service";
 import { Device } from "../../model/device";
+import { Category } from "../../model/category";
 import {
   ValidationControllerFactory,
   ValidationController,
@@ -12,6 +13,7 @@ import {BootstrapFormRenderer} from '../bootstrap-form-renderer';
 export class Home {
   
   items:Device[]=[];
+  categories: Category[]=[];
   selectedItems: Device[] = [];
   email='';
   controller = null;
@@ -30,6 +32,9 @@ export class Home {
   created(){
     this.homeService.GetList().then(res=>{
       this.items=JSON.parse(res.response);
+    });
+    this.homeService.GetCategory().then(res=>{
+      this.categories=JSON.parse(res.response);
     })
   }
 
@@ -78,6 +83,14 @@ export class Home {
         }
       })
     }
+  }
+
+  getCategoryName(cats,categoryId)
+  {
+    cats.forEach(e => {
+        if (e.id == categoryId) return e.Name;
+        else return "";
+      });
   }
 }
 ValidationRules

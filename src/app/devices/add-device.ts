@@ -8,13 +8,16 @@ import {BootstrapFormRenderer} from '../bootstrap-form-renderer';
 import { autoinject } from "aurelia-framework";
 import { DeviceService } from "./device.service";
 import {Router} from 'aurelia-router';
+import { Category } from "../../model/category";
 
 @autoinject
 export class AddDevice{
+  categories:Category[]=[];
   controller=null;
   name:string;
   description:string;
   useDate:number;
+  categoryid:number;
 
   constructor(
     private router:Router,
@@ -25,6 +28,12 @@ export class AddDevice{
     this.controller.addRenderer(new BootstrapFormRenderer());
   }
 
+  created(){
+    this.deviceService.GetCategory().then(res=>{
+      this.categories=JSON.parse(res.response);
+    })
+  }
+
   submit(){
     this.controller.validate().then(data=>{
       if(data.valid){
@@ -32,6 +41,7 @@ export class AddDevice{
         device['name']=this.name;
         device['description']=this.description;
         device['useDate']=this.useDate;
+        device['categoryid']=this.categoryid;
         this.deviceService.Add(device).then(res=>{
           console.log(JSON.parse(res.response));
           if(JSON.parse(res.response).message==='success'){

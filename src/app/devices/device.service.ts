@@ -6,8 +6,12 @@ let client = new HttpClient();
 export class DeviceService{
   apiDomain=environment.apiDomain;
 
-  Add(param){
-    return client.post(this.apiDomain+'add', param);
+  Add(deviceModel){
+    return client.post(this.apiDomain+'add', deviceModel);
   }
 
+
+  GetCategory(){
+    return client.get(this.apiDomain+'get-category');
+  }
 }

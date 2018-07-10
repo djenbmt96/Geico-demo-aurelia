@@ -38,4 +38,12 @@ export class HomeService{
       return res;
     });
   }
+
+  GetCategory(){
+    this.isRequesting=true;
+    return client.get(this.apiDomain+'get-category').then(res=>{
+      this.isRequesting=false;
+      return res;
+    });
+  }
 }

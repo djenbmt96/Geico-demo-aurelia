@@ -1,7 +1,6 @@
-export class Device{
-  id:number;
-  name:string;
-  description:string;
+import { BaseModel } from './baseModel'
+export class Device extends BaseModel {  
   status:number;
   useDate:number;
+  categoryid:number;
 }
