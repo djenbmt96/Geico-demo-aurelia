@@ -1,4 +1,3 @@
-import { WebAPI } from "../../api/web-api";
 import { inject,autoinject } from "aurelia-framework";
 import { HomeService } from "./home.service";
 import { Device } from "../../model/device";
@@ -21,7 +20,6 @@ export class Home {
 
   constructor(
     private homeService:HomeService,
-    private api:WebAPI,
     private controllerFactory:ValidationControllerFactory
   ){
     this.controller = controllerFactory.createForCurrentScope();
@@ -68,7 +66,7 @@ export class Home {
       this.items=JSON.parse(res.response);
     })
   }
-  
+
   delete(id){
     let result = confirm('Do you want to delete?');
     if(result){
