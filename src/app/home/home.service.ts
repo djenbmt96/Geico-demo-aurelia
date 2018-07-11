@@ -46,4 +46,12 @@ export class HomeService{
       return res;
     });
   }
+
+  saveAll(param){
+    this.isRequesting=true;
+    return client.post(this.apiDomain+'save-all',param).then(res=>{
+      this.isRequesting=false;
+      return res;
+    });
+  }
 }
