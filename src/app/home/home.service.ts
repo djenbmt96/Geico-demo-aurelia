@@ -7,7 +7,7 @@ export class HomeService{
   apiDomain=environment.apiDomain;
   isRequesting=false;
 
-  SendEmail(param){
+  sendEmail(param){
     this.isRequesting=true;
     return client.post(this.apiDomain, param).then(res=>{
       this.isRequesting=false;
@@ -15,7 +15,7 @@ export class HomeService{
     })
   }
 
-  GetList(){
+  getList(){
     this.isRequesting=true;
     return client.get(this.apiDomain).then(res=>{
       this.isRequesting=false;
@@ -23,7 +23,7 @@ export class HomeService{
     });
   }
 
-  Edit(param){
+  edit(param){
     this.isRequesting=true;
     return client.post(this.apiDomain+'edit',param).then(res=>{
       this.isRequesting=false;
@@ -31,7 +31,7 @@ export class HomeService{
     });
   }
 
-  Delete(param){
+  delete(param){
     this.isRequesting=true;
     return client.post(this.apiDomain+'delete',param).then(res=>{
       this.isRequesting=false;
@@ -39,7 +39,7 @@ export class HomeService{
     });
   }
 
-  GetCategory(){
+  getCategory(){
     this.isRequesting=true;
     return client.get(this.apiDomain+'get-category').then(res=>{
       this.isRequesting=false;

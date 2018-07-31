@@ -1,7 +1,7 @@
 import {Router, RouterConfiguration} from 'aurelia-router';
 import {PLATFORM} from 'aurelia-pal';
 import {inject} from 'aurelia-framework';
-import {HomeService} from './app/home/home.service';
+import {HomeService} from 'app/home/home.service';
 
 @inject(HomeService)
 export class App {
