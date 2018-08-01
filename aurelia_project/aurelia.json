@@ -68,5 +68,12 @@
   "testFramework": {
     "id": "jasmine",
     "displayName": "Jasmine"
-  }
+  },
+  "dependencies": [
+    {
+      "name": "aurelia-dialog",
+      "path": "../node_modules/aurelia-dialog/dist/amd",
+      "main": "aurelia-dialog"
+    }
+  ]
 }

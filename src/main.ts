@@ -14,7 +14,8 @@ export function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
     .feature(PLATFORM.moduleName('resources/index'))
-    .plugin(PLATFORM.moduleName('aurelia-validation'));
+    .plugin(PLATFORM.moduleName('aurelia-validation'))
+    .plugin(PLATFORM.moduleName('aurelia-dialog'));
 
   if (environment.debug) {
     aurelia.use.developmentLogging();

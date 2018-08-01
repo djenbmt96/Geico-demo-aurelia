@@ -45,8 +45,7 @@
           <input type="checkbox" change.delegate="onCheckEmail()" checked.bind="item.email">
         </td>
         <td>
-          <button click.delegate="changeEditItem(item)" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editModal"
-            title="edit">
+          <button click.delegate="changeEditItem(item)" type="button" class="btn btn-secondary btn-sm" title="edit">
             <i class="fas fa-pencil-alt"></i>
           </button>
           <button click.delegate="delete(item.id)" type="button" class="btn btn-danger btn-sm" title="delete">
@@ -58,88 +57,7 @@
   </table>
   <div class="row justify-content-sm-center">
     <div class="col-sm-4">
-      <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Send email</button>
+      <button type="button" class="btn btn-primary btn-lg btn-block" click.delegate="openEmailModal()">Send email</button>
     </div>
   </div>
-  <form submit.delegate="sendEmail()">
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Send email</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div if.bind="inform==1" class="alert alert-success" role="alert">
-              <h4 class="alert-heading">Well done!</h4>
-              <p>Your email was sent successfully!</p>
-            </div>
-            <div if.bind="inform==-1" class="alert alert-danger" role="alert">
-              <h4 class="alert-heading">Opps!</h4>
-              <p>There was an error! Your email is not sent.</p>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Send to email address</label>
-              <input value.bind="email & validate" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                placeholder="Enter email">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Send</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-
-  <form submit.delegate="submitEdit()">
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editModalLabel">Edit info</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div if.bind="inform==2" class="alert alert-success" role="alert">
-              <h4 class="alert-heading">Well done!</h4>
-              <p>Information has changed!</p>
-            </div>
-            <div class="form-group">
-              <label for="editId">Item Code:
-                <strong>${selectedItem.id}</strong>
-              </label>
-            </div>
-            <div class="form-group">
-              <label for="editName">Name</label>
-              <input value.bind="selectedItem.name" type="text" class="form-control" id="editName" placeholder="Enter name">
-            </div>
-            <div class="form-group">
-              <label for="editDescription">Description</label>
-              <input value.bind="selectedItem.description" type="text" class="form-control" id="editDescription" placeholder="Enter description">
-            </div>
-            <div class="form-group">
-              <label for="editUseDate">Use date</label>
-              <input value.bind="selectedItem.useDate" type="number" class="form-control" id="editUseDate" placeholder="Enter use date">
-            </div>
-            <div class="form-group">
-              <label for="category">Category</label>
-              <select class="form-control" value.bind="selectedItem.categoryid">
-                <option repeat.for="item of categories" model.bind="item.id">${item.name}</option>
-              </select>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
 </template>

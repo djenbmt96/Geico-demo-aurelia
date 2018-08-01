@@ -1,0 +1,36 @@
+<template>
+  <ux-dialog>
+    <ux-dialog-header>
+      <h5 class="modal-title">Edit info</h5>
+    </ux-dialog-header>
+    <ux-dialog-body>
+      <div class="form-group">
+        <label for="editId">Item Code:
+          <strong>${selectedItem.id}</strong>
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="editName">Name</label>
+        <input value.bind="name & validate" type="text" class="form-control" id="editName" placeholder="Enter name">
+      </div>
+      <div class="form-group">
+        <label for="editDescription">Description</label>
+        <input value.bind="description & validate" type="text" class="form-control" id="editDescription" placeholder="Enter description">
+      </div>
+      <div class="form-group">
+        <label for="editUseDate">Use date</label>
+        <input value.bind="useDate & validate" type="number" class="form-control" id="editUseDate" placeholder="Enter use date">
+      </div>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" value.bind="category">
+          <option repeat.for="item of categories" model.bind="item.id">${item.name}</option>
+        </select>
+      </div>
+    </ux-dialog-body>
+    <ux-dialog-footer>
+      <button click.trigger="dialogController.cancel()">Cancel</button>
+      <button click.trigger="send()">Ok</button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>

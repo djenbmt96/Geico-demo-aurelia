@@ -1,0 +1,18 @@
+<template>
+  <ux-dialog class="col-sm-12">
+    <ux-dialog-header>
+      <h5 class="modal-title">Send email</h5>
+    </ux-dialog-header>
+    <ux-dialog-body>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Send to email address</label>
+        <input value.bind="email & validate" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+          placeholder="Enter email">
+      </div>
+    </ux-dialog-body>
+    <ux-dialog-footer>
+      <button click.trigger="dialogController.cancel()">Cancel</button>
+      <button click.trigger="send()">Ok</button>
+    </ux-dialog-footer>
+  </ux-dialog>
+</template>

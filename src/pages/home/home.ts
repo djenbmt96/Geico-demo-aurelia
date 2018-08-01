@@ -1,14 +1,11 @@
-import { inject, autoinject } from "aurelia-framework";
+import { autoinject } from "aurelia-framework";
 import { HardwareService } from "services/hardware-service/hardware-service";
 import { CategoryService } from "services/category-service/category-service";
 import { HardWare } from "model/hardware-model";
 import { Category } from "model/category-model";
-import {
-  ValidationControllerFactory,
-  ValidationController,
-  ValidationRules
-} from 'aurelia-validation';
-import { BootstrapFormRenderer } from 'resources/elements/bootstrap-form-renderer';
+import { DialogService } from 'aurelia-dialog';
+import { EmailModal } from "./modal/email-modal";
+import { EditModal } from "./modal/edit-modal";
 
 @autoinject
 export class Home {
@@ -17,21 +14,16 @@ export class Home {
   categories: Category[] = [];
   selectedItems: HardWare[] = [];
   email = '';
-  controller = null;
   inform = 0;
   selectedItem: HardWare;
   interval: any;
   init = true;
 
   constructor(
+    private dialogService: DialogService,
     private hardwareService: HardwareService,
     private categoryService: CategoryService,
-    private controllerFactory: ValidationControllerFactory
-  ) {
-    this.controller = controllerFactory.createForCurrentScope();
-    this.controller.addRenderer(new BootstrapFormRenderer());
-
-  }
+  ) { }
 
   created() {
     this.refreshData();
@@ -64,38 +56,57 @@ export class Home {
     })
   }
 
-  sendEmail() {
-    this.controller.validate().then((data) => {
-      if (data.valid) {
-        this.selectedItems = [];
-        this.items.forEach(e => {
-          if (e.email) {
-            this.selectedItems.push(e);
-          }
-        });
-        if (this.selectedItems.length !== 0) {
-          let param = {};
-          param['email'] = this.email;
-          param['items'] = this.selectedItems;
-          this.hardwareService.sendEmail(param)
-            .then(res => {
-              if (res.message) {
-                this.inform = -1;
-              } else {
-                this.items = res;
-                this.inform = 1;
-              }
-            })
-        } else {
-          alert("Please choose at least 1 item to send email!");
-        }
+  openEmailModal() {
+    this.selectedItems = [];
+    this.items.forEach(e => {
+      if (e.email) {
+        this.selectedItems.push(e);
       }
-    })
+    });
+    this.dialogService.open({ viewModel: EmailModal, model: this.selectedItems, lock: false }).whenClosed(response => {
+      if (!response.wasCancelled) {
+        this.email = response.output;
+        this.sendEmail();
+      } else { }
+    });
   }
 
-  changeEditItem(param) {
+  sendEmail() {
+    this.selectedItems = [];
+    this.items.forEach(e => {
+      if (e.email) {
+        this.selectedItems.push(e);
+      }
+    });
+    if (this.selectedItems.length !== 0) {
+      let param = {};
+      param['email'] = this.email;
+      param['items'] = this.selectedItems;
+      console.log(param);
+      this.hardwareService.sendEmail(param)
+        .then(res => {
+          if (res.message) {
+            this.inform = -1;
+            alert("Fail! Email was not sent.");
+          } else {
+            this.items = res;
+            this.inform = 1;
+            alert("Email has sent successfully!");
+          }
+        })
+    } else {
+      alert("Please choose at least 1 item to send email!");
+    }
+  }
+
+  changeEditItem(param: HardWare) {
     this.inform = 0;
-    this.selectedItem = param;
+    this.dialogService.open({ viewModel: EditModal, model: param, lock: false }).whenClosed(response => {
+      if (!response.wasCancelled) {
+        this.selectedItem = response.output;
+        this.submitEdit();
+      } else { }
+    });
   }
 
   submitEdit() {
@@ -127,6 +138,3 @@ export class Home {
     });
   }
 }
-ValidationRules
-  .ensure((a: any) => a.email).required().email()
-  .on(Home)

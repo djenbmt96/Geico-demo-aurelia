@@ -16,9 +16,7 @@ export class HardwareService {
   }
 
   getList() {
-    this.isRequesting = true;
     return client.get(this.apiDomain).then(res => {
-      this.isRequesting = false;
       return JSON.parse(res.response);
     });
   }
@@ -48,7 +46,9 @@ export class HardwareService {
   }
 
   add(hardware) {
+    this.isRequesting = true;
     return client.post(this.apiDomain + 'add', hardware).then(res => {
+      this.isRequesting = false;
       return JSON.parse(res.response);
     })
   }
