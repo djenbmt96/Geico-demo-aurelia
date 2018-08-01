@@ -1,5 +1,5 @@
 import { BaseModel } from './base-model'
-export class Device extends BaseModel {  
+export class HardWare extends BaseModel {  
   status:number;
   useDate:number;
   categoryid:number;

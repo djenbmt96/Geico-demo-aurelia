@@ -1,29 +1,31 @@
 import { inject, autoinject } from "aurelia-framework";
-import { HomeService } from "./home.service";
-import { Device } from "model/device-model";
+import { HardwareService } from "services/hardware-service/hardware-service";
+import { CategoryService } from "services/category-service/category-service";
+import { HardWare } from "model/hardware-model";
 import { Category } from "model/category-model";
 import {
   ValidationControllerFactory,
   ValidationController,
   ValidationRules
 } from 'aurelia-validation';
-import { BootstrapFormRenderer } from '../bootstrap-form-renderer';
+import { BootstrapFormRenderer } from 'resources/elements/bootstrap-form-renderer';
 
 @autoinject
 export class Home {
 
-  items: Device[] = [];
+  items: HardWare[] = [];
   categories: Category[] = [];
-  selectedItems: Device[] = [];
+  selectedItems: HardWare[] = [];
   email = '';
   controller = null;
   inform = 0;
-  selectedItem: Device;
+  selectedItem: HardWare;
   interval: any;
   init = true;
 
   constructor(
-    private homeService: HomeService,
+    private hardwareService: HardwareService,
+    private categoryService: CategoryService,
     private controllerFactory: ValidationControllerFactory
   ) {
     this.controller = controllerFactory.createForCurrentScope();
@@ -38,32 +40,31 @@ export class Home {
     }, 1000);
   }
 
-
   refreshData() {
-    this.homeService.getList().then(res => {
-      this.items = JSON.parse(res.response);
+    this.hardwareService.getList().then(res => {
+      this.items = res;
       if (this.init) {
         this.items.forEach(e => {
           e.email = false;
         });
-        this.homeService.saveAll(this.items).then(res => {
-          this.items = JSON.parse(res.response);
+        this.hardwareService.saveAll(this.items).then(res => {
+          this.items = res;
         })
         this.init = false;
       }
     });
-    this.homeService.getCategory().then(res => {
-      this.categories = JSON.parse(res.response);
+    this.categoryService.getCategory().then(res => {
+      this.categories = res;
     })
   }
 
-  onChange() {
-    this.homeService.saveAll(this.items).then(res => {
-      this.items = JSON.parse(res.response);
+  onCheckEmail() {
+    this.hardwareService.saveAll(this.items).then(res => {
+      this.items = res;
     })
   }
 
-  submit() {
+  sendEmail() {
     this.controller.validate().then((data) => {
       if (data.valid) {
         this.selectedItems = [];
@@ -76,12 +77,12 @@ export class Home {
           let param = {};
           param['email'] = this.email;
           param['items'] = this.selectedItems;
-          this.homeService.sendEmail(param)
+          this.hardwareService.sendEmail(param)
             .then(res => {
-              if (JSON.parse(res.response).message) {
+              if (res.message) {
                 this.inform = -1;
               } else {
-                this.items = JSON.parse(res.response)
+                this.items = res;
                 this.inform = 1;
               }
             })
@@ -97,12 +98,12 @@ export class Home {
     this.selectedItem = param;
   }
 
-  edit() {
-    this.homeService.edit(this.selectedItem).then(res => {
-      if (res.response) {
+  submitEdit() {
+    this.hardwareService.edit(this.selectedItem).then(res => {
+      if (res) {
         this.inform = 2;
       }
-      this.items = JSON.parse(res.response);
+      this.items = res;
     })
   }
 
@@ -111,9 +112,9 @@ export class Home {
     if (result) {
       var param = {};
       param['id'] = id;
-      this.homeService.delete(param).then(res => {
-        if (res.response) {
-          this.items = JSON.parse(res.response);
+      this.hardwareService.delete(param).then(res => {
+        if (res) {
+          this.items = res;
         }
       })
     }

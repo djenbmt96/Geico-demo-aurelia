@@ -42,7 +42,7 @@
         </td>
         <td>${item.useDate}</td>
         <td>
-          <input type="checkbox" change.delegate="onChange()" checked.bind="item.email">
+          <input type="checkbox" change.delegate="onCheckEmail()" checked.bind="item.email">
         </td>
         <td>
           <button click.delegate="changeEditItem(item)" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editModal"
@@ -61,7 +61,7 @@
       <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Send email</button>
     </div>
   </div>
-  <form submit.delegate="submit()">
+  <form submit.delegate="sendEmail()">
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -95,7 +95,7 @@
     </div>
   </form>
 
-  <form submit.delegate="edit()">
+  <form submit.delegate="submitEdit()">
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">

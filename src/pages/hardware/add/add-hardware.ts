@@ -1,12 +1,11 @@
-import { Device } from "model/device-model";
 import {
   ValidationControllerFactory,
-  ValidationController,
   ValidationRules
 } from 'aurelia-validation';
-import { BootstrapFormRenderer } from '../bootstrap-form-renderer';
+import { BootstrapFormRenderer } from 'resources/elements/bootstrap-form-renderer';
 import { autoinject } from "aurelia-framework";
-import { DeviceService } from "./device.service";
+import { HardwareService } from "services/hardware-service/hardware-service";
+import { CategoryService } from "services/category-service/category-service";
 import { Router } from 'aurelia-router';
 import { Category } from "model/category-model";
 
@@ -21,7 +20,8 @@ export class AddDevice {
 
   constructor(
     private router: Router,
-    private deviceService: DeviceService,
+    private hardwareService: HardwareService,
+    private categoryService: CategoryService,
     private controllerFactory: ValidationControllerFactory
   ) {
     this.controller = controllerFactory.createForCurrentScope();
@@ -29,22 +29,21 @@ export class AddDevice {
   }
 
   created() {
-    this.deviceService.getCategory().then(res => {
-      this.categories = JSON.parse(res.response);
+    this.categoryService.getCategory().then(res => {
+      this.categories = res;
     })
   }
 
   submit() {
     this.controller.validate().then(data => {
       if (data.valid) {
-        var device = {};
-        device['name'] = this.name;
-        device['description'] = this.description;
-        device['useDate'] = this.useDate;
-        device['categoryid'] = this.categoryId;
-        this.deviceService.add(device).then(res => {
-          console.log(JSON.parse(res.response));
-          if (JSON.parse(res.response).message === 'success') {
+        var hardware = {};
+        hardware['name'] = this.name;
+        hardware['description'] = this.description;
+        hardware['useDate'] = this.useDate;
+        hardware['categoryid'] = this.categoryId;
+        this.hardwareService.add(hardware).then(res => {
+          if (res.message === 'success') {
             this.router.navigate('/');
           }
         })
