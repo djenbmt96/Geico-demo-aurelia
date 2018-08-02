@@ -84,6 +84,17 @@
         "build/toastr.min.css"
       ],
       "deps": ["jquery"]
+    },
+    {
+      "name": "aurelia-plugins-pagination",
+      "path": "../node_modules/aurelia-plugins-pagination/dist/amd",
+      "main": "aurelia-plugins-pagination"
+    },
+    {
+      "name": "babel-polyfill",
+      "main": "dist/polyfill.js",
+      "path": "../node_modules/babel-polyfill",
+      "resources": []
     }
   ]
 }

@@ -6,3 +6,9 @@ ux-dialog-overlay.active {
   background-color: black;
   opacity: .5;
 }
+.list-inline{
+  display: flex;
+}
+.input-page{
+  width:50px;
+}

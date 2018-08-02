@@ -19,12 +19,17 @@ export class Home {
   interval: any;
   init = true;
 
+  currentPage = 1;
+  pageSize = 10;
+  pageSizes = [10, 20, 50, 100];
+  totalItems = 100;
+
   constructor(
     private dialogService: DialogService,
     private hardwareService: HardwareService,
     private categoryService: CategoryService,
   ) { }
-  
+
   created() {
     this.refreshData();
     this.interval = setInterval(() => {
