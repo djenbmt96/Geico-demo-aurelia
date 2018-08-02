@@ -6,6 +6,7 @@ import { Category } from "model/category-model";
 import { DialogService } from 'aurelia-dialog';
 import { EmailModal } from "./modal/email-modal";
 import { EditModal } from "./modal/edit-modal";
+import * as toastr from 'toastr';
 
 @autoinject
 export class Home {
@@ -14,7 +15,6 @@ export class Home {
   categories: Category[] = [];
   selectedItems: HardWare[] = [];
   email = '';
-  inform = 0;
   selectedItem: HardWare;
   interval: any;
   init = true;
@@ -24,7 +24,7 @@ export class Home {
     private hardwareService: HardwareService,
     private categoryService: CategoryService,
   ) { }
-
+  
   created() {
     this.refreshData();
     this.interval = setInterval(() => {
@@ -86,21 +86,18 @@ export class Home {
       this.hardwareService.sendEmail(param)
         .then(res => {
           if (res.message) {
-            this.inform = -1;
-            alert("Fail! Email was not sent.");
+            toastr.error("Fail! Email was not sent.");
           } else {
             this.items = res;
-            this.inform = 1;
-            alert("Email has sent successfully!");
+            toastr.success("Email has sent successfully!");
           }
         })
     } else {
-      alert("Please choose at least 1 item to send email!");
+      toastr.error("Fail! Please choose at least 1 item to send email.");
     }
   }
 
   changeEditItem(param: HardWare) {
-    this.inform = 0;
     this.dialogService.open({ viewModel: EditModal, model: param, lock: false }).whenClosed(response => {
       if (!response.wasCancelled) {
         this.selectedItem = response.output;
@@ -111,9 +108,6 @@ export class Home {
 
   submitEdit() {
     this.hardwareService.edit(this.selectedItem).then(res => {
-      if (res) {
-        this.inform = 2;
-      }
       this.items = res;
     })
   }

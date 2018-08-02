@@ -1,5 +1,6 @@
 <template>
   <require from="./app.css"></require>
+  <require from="toastr/build/toastr.min.css"></require>
   <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand" href="#">
       <img src="../images/banner.png" width="170" height="30" class="d-inline-block align-top" alt="">
@@ -9,5 +10,4 @@
     <router-view class="col-12"></router-view>
   </div>
   <loading-indicator loading.bind="router.isNavigating || api.isRequesting"></loading-indicator>
-  <!-- <loading-indicator loading.bind="router.isNavigating"></loading-indicator> -->
 </template>

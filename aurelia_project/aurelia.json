@@ -74,6 +74,16 @@
       "name": "aurelia-dialog",
       "path": "../node_modules/aurelia-dialog/dist/amd",
       "main": "aurelia-dialog"
+    },
+    "jquery",
+    {
+      "name": "toastr",
+      "path": "../node_modules/toastr",
+      "main": "toastr",
+      "resources": [
+        "build/toastr.min.css"
+      ],
+      "deps": ["jquery"]
     }
   ]
 }
